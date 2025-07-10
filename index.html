@@ -1,267 +1,434 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Shop Homepage - Start Bootstrap Template</title>
-        <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-        <!-- Bootstrap icons-->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="css/styles.css" rel="stylesheet" />
-    </head>
-    <body>
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="#!">Start Bootstrap</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#!">All Products</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                                <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-                            </ul>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="TechStore - Electronics & Gadgets" />
+    <meta name="author" content="TechStore" />
+    <title>TechStore - Electronics & Gadgets</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    
+    <!-- Bootstrap icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    
+    <!-- Core theme CSS (includes Bootstrap) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    
+    <!-- Custom CSS -->
+    <style>
+        .navbar-brand {
+            font-weight: bold;
+            color: #007bff !important;
+        }
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 0;
+        }
+        .product-card {
+            transition: transform 0.3s ease;
+            border: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #dc3545;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .cart-dropdown {
+            min-width: 350px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .cart-item {
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+        }
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+        .category-badge {
+            background: #f8f9fa;
+            color: #6c757d;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+        }
+        .price {
+            font-weight: bold;
+            color: #007bff;
+        }
+        .btn-primary {
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            border: none;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #0056b3, #004085);
+        }
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1050;
+            min-width: 300px;
+        }
+    </style>
+    
+    <!-- Analytics Preparation -->
+    <script>
+        // Initialize dataLayer before any tracking code
+        window.dataLayer = window.dataLayer || [];
+        
+        // Helper function for analytics (will be replaced with GA4/GTM)
+        function trackEvent(eventName, eventData) {
+            console.log('Analytics Event:', eventName, eventData);
+            window.dataLayer.push({
+                event: eventName,
+                ...eventData
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="#!">
+                <i class="bi bi-lightning-charge"></i>
+                TechStore
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#products">Products</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#!" onclick="filterProducts('smartphones')">Smartphones</a></li>
+                            <li><a class="dropdown-item" href="#!" onclick="filterProducts('laptops')">Laptops</a></li>
+                            <li><a class="dropdown-item" href="#!" onclick="filterProducts('headphones')">Headphones</a></li>
+                            <li><a class="dropdown-item" href="#!" onclick="filterProducts('accessories')">Accessories</a></li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li><a class="dropdown-item" href="#!" onclick="filterProducts('')">All Products</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+                
+                <!-- Cart Dropdown -->
+                <div class="dropdown">
+                    <button class="btn btn-outline-dark dropdown-toggle position-relative" type="button" id="cartDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi-cart-fill me-1"></i>
+                        Cart
+                        <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end cart-dropdown" aria-labelledby="cartDropdown">
+                        <li><h6 class="dropdown-header">Shopping Cart</h6></li>
+                        <div id="cartItems">
+                            <li class="text-center p-3 text-muted">Your cart is empty</li>
+                        </div>
+                        <li><hr class="dropdown-divider"></li>
+                        <li class="px-3 py-2">
+                            <div class="d-flex justify-content-between">
+                                <strong>Total: $<span id="cartTotal">0.00</span></strong>
+                            </div>
+                        </li>
+                        <li class="px-3 py-2">
+                            <button class="btn btn-primary w-100" id="viewCartBtn" disabled>View Cart</button>
                         </li>
                     </ul>
-                    <form class="d-flex">
-                        <button class="btn btn-outline-dark" type="submit">
-                            <i class="bi-cart-fill me-1"></i>
-                            Cart
-                            <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                        </button>
-                    </form>
                 </div>
             </div>
-        </nav>
-        <!-- Header-->
-        <header class="bg-dark py-5">
-            <div class="container px-4 px-lg-5 my-5">
-                <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">Shop in style</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
+        </div>
+    </nav>
+    
+    <!-- Header -->
+    <header class="hero-section">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center">
+                <h1 class="display-4 fw-bolder">Latest Tech, Best Prices</h1>
+                <p class="lead fw-normal mb-0">Discover amazing deals on electronics and gadgets</p>
+                <a href="#products" class="btn btn-light btn-lg mt-4">Shop Now</a>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Section -->
+    <section class="py-5" id="products">
+        <div class="container px-4 px-lg-5 mt-5">
+            <div class="row mb-4">
+                <div class="col-12 text-center">
+                    <h2 class="fw-bolder">Featured Products</h2>
+                    <p class="text-muted">Discover our best-selling electronics</p>
                 </div>
             </div>
-        </header>
-        <!-- Section-->
-        <section class="py-5">
-            <div class="container px-4 px-lg-5 mt-5">
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">Fancy Product</h5>
-                                    <!-- Product price-->
-                                    $40.00 - $80.00
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
+            
+            <!-- Filter Controls -->
+            <div class="row mb-4">
+                <div class="col-12 text-center">
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-outline-primary filter-btn active" data-filter="">All</button>
+                        <button class="btn btn-outline-primary filter-btn" data-filter="smartphones">Smartphones</button>
+                        <button class="btn btn-outline-primary filter-btn" data-filter="laptops">Laptops</button>
+                        <button class="btn btn-outline-primary filter-btn" data-filter="headphones">Headphones</button>
+                        <button class="btn btn-outline-primary filter-btn" data-filter="accessories">Accessories</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Products Grid -->
+            <div class="row gx-4 gx-lg-5 row-cols-1 row-cols-md-2 row-cols-xl-3 justify-content-center" id="productsGrid">
+                
+                <!-- Product 1 -->
+                <div class="col mb-5 product-item" data-category="smartphones">
+                    <div class="card h-100 product-card" data-product-id="PHONE_001">
+                        <img class="card-img-top" src="https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400&h=300&fit=crop" alt="iPhone 14 Pro" style="height: 250px; object-fit: cover;" />
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <h5 class="fw-bolder product-name">iPhone 14 Pro</h5>
+                                <span class="category-badge product-category" data-category="smartphones">Smartphones</span>
+                                <div class="price product-price mt-2" data-price="999">$999.00</div>
+                                <div class="text-muted small">A16 Bionic chip, Pro camera system</div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Sale badge-->
-                            <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
-                            <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">Special Item</h5>
-                                    <!-- Product reviews-->
-                                    <div class="d-flex justify-content-center small text-warning mb-2">
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                    </div>
-                                    <!-- Product price-->
-                                    <span class="text-muted text-decoration-line-through">$20.00</span>
-                                    $18.00
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Sale badge-->
-                            <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
-                            <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">Sale Item</h5>
-                                    <!-- Product price-->
-                                    <span class="text-muted text-decoration-line-through">$50.00</span>
-                                    $25.00
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">Popular Item</h5>
-                                    <!-- Product reviews-->
-                                    <div class="d-flex justify-content-center small text-warning mb-2">
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                    </div>
-                                    <!-- Product price-->
-                                    $40.00
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Sale badge-->
-                            <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
-                            <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">Sale Item</h5>
-                                    <!-- Product price-->
-                                    <span class="text-muted text-decoration-line-through">$50.00</span>
-                                    $25.00
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">Fancy Product</h5>
-                                    <!-- Product price-->
-                                    $120.00 - $280.00
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Sale badge-->
-                            <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
-                            <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">Special Item</h5>
-                                    <!-- Product reviews-->
-                                    <div class="d-flex justify-content-center small text-warning mb-2">
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                    </div>
-                                    <!-- Product price-->
-                                    <span class="text-muted text-decoration-line-through">$20.00</span>
-                                    $18.00
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">Popular Item</h5>
-                                    <!-- Product reviews-->
-                                    <div class="d-flex justify-content-center small text-warning mb-2">
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                    </div>
-                                    <!-- Product price-->
-                                    $40.00
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div class="text-center d-grid gap-2">
+                                <button class="btn btn-outline-dark add-to-cart" 
+                                        data-product-id="PHONE_001"
+                                        data-product-name="iPhone 14 Pro"
+                                        data-product-price="999"
+                                        data-product-category="smartphones"
+                                        data-product-image="https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400&h=300&fit=crop">
+                                    <i class="bi-cart-fill me-1"></i>Add to Cart
+                                </button>
+                                <button class="btn btn-primary btn-sm view-product" 
+                                        data-product-id="PHONE_001">
+                                    <i class="bi-eye me-1"></i>View Details
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
+                
+                <!-- Product 2 -->
+                <div class="col mb-5 product-item" data-category="laptops">
+                    <div class="card h-100 product-card" data-product-id="LAPTOP_001">
+                        <img class="card-img-top" src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=300&fit=crop" alt="MacBook Pro" style="height: 250px; object-fit: cover;" />
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <h5 class="fw-bolder product-name">MacBook Pro 14"</h5>
+                                <span class="category-badge product-category" data-category="laptops">Laptops</span>
+                                <div class="price product-price mt-2" data-price="1999">$1,999.00</div>
+                                <div class="text-muted small">M2 Pro chip, 16GB RAM, 512GB SSD</div>
+                            </div>
+                        </div>
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div class="text-center d-grid gap-2">
+                                <button class="btn btn-outline-dark add-to-cart" 
+                                        data-product-id="LAPTOP_001"
+                                        data-product-name="MacBook Pro 14&quot;"
+                                        data-product-price="1999"
+                                        data-product-category="laptops"
+                                        data-product-image="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=300&fit=crop">
+                                    <i class="bi-cart-fill me-1"></i>Add to Cart
+                                </button>
+                                <button class="btn btn-primary btn-sm view-product" 
+                                        data-product-id="LAPTOP_001">
+                                    <i class="bi-eye me-1"></i>View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 3 -->
+                <div class="col mb-5 product-item" data-category="headphones">
+                    <div class="card h-100 product-card" data-product-id="HEADPHONES_001">
+                        <img class="card-img-top" src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop" alt="AirPods Pro" style="height: 250px; object-fit: cover;" />
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <h5 class="fw-bolder product-name">AirPods Pro (2nd gen)</h5>
+                                <span class="category-badge product-category" data-category="headphones">Headphones</span>
+                                <div class="price product-price mt-2" data-price="249">$249.00</div>
+                                <div class="text-muted small">Active Noise Cancellation</div>
+                            </div>
+                        </div>
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div class="text-center d-grid gap-2">
+                                <button class="btn btn-outline-dark add-to-cart" 
+                                        data-product-id="HEADPHONES_001"
+                                        data-product-name="AirPods Pro (2nd gen)"
+                                        data-product-price="249"
+                                        data-product-category="headphones"
+                                        data-product-image="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop">
+                                    <i class="bi-cart-fill me-1"></i>Add to Cart
+                                </button>
+                                <button class="btn btn-primary btn-sm view-product" 
+                                        data-product-id="HEADPHONES_001">
+                                    <i class="bi-eye me-1"></i>View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 4 -->
+                <div class="col mb-5 product-item" data-category="smartphones">
+                    <div class="card h-100 product-card" data-product-id="PHONE_002">
+                        <img class="card-img-top" src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&h=300&fit=crop" alt="Samsung Galaxy S23" style="height: 250px; object-fit: cover;" />
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <h5 class="fw-bolder product-name">Samsung Galaxy S23</h5>
+                                <span class="category-badge product-category" data-category="smartphones">Smartphones</span>
+                                <div class="price product-price mt-2" data-price="799">$799.00</div>
+                                <div class="text-muted small">Snapdragon 8 Gen 2, 50MP camera</div>
+                            </div>
+                        </div>
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div class="text-center d-grid gap-2">
+                                <button class="btn btn-outline-dark add-to-cart" 
+                                        data-product-id="PHONE_002"
+                                        data-product-name="Samsung Galaxy S23"
+                                        data-product-price="799"
+                                        data-product-category="smartphones"
+                                        data-product-image="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&h=300&fit=crop">
+                                    <i class="bi-cart-fill me-1"></i>Add to Cart
+                                </button>
+                                <button class="btn btn-primary btn-sm view-product" 
+                                        data-product-id="PHONE_002">
+                                    <i class="bi-eye me-1"></i>View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 5 -->
+                <div class="col mb-5 product-item" data-category="accessories">
+                    <div class="card h-100 product-card" data-product-id="ACCESSORY_001">
+                        <img class="card-img-top" src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=400&h=300&fit=crop" alt="Wireless Charger" style="height: 250px; object-fit: cover;" />
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <h5 class="fw-bolder product-name">Wireless Charger</h5>
+                                <span class="category-badge product-category" data-category="accessories">Accessories</span>
+                                <div class="price product-price mt-2" data-price="39">$39.00</div>
+                                <div class="text-muted small">Fast charging, Qi compatible</div>
+                            </div>
+                        </div>
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div class="text-center d-grid gap-2">
+                                <button class="btn btn-outline-dark add-to-cart" 
+                                        data-product-id="ACCESSORY_001"
+                                        data-product-name="Wireless Charger"
+                                        data-product-price="39"
+                                        data-product-category="accessories"
+                                        data-product-image="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=400&h=300&fit=crop">
+                                    <i class="bi-cart-fill me-1"></i>Add to Cart
+                                </button>
+                                <button class="btn btn-primary btn-sm view-product" 
+                                        data-product-id="ACCESSORY_001">
+                                    <i class="bi-eye me-1"></i>View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 6 -->
+                <div class="col mb-5 product-item" data-category="laptops">
+                    <div class="card h-100 product-card" data-product-id="LAPTOP_002">
+                        <img class="card-img-top" src="https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?w=400&h=300&fit=crop" alt="Dell XPS 13" style="height: 250px; object-fit: cover;" />
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <h5 class="fw-bolder product-name">Dell XPS 13</h5>
+                                <span class="category-badge product-category" data-category="laptops">Laptops</span>
+                                <div class="price product-price mt-2" data-price="1299">$1,299.00</div>
+                                <div class="text-muted small">Intel i7, 16GB RAM, 512GB SSD</div>
+                            </div>
+                        </div>
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div class="text-center d-grid gap-2">
+                                <button class="btn btn-outline-dark add-to-cart" 
+                                        data-product-id="LAPTOP_002"
+                                        data-product-name="Dell XPS 13"
+                                        data-product-price="1299"
+                                        data-product-category="laptops"
+                                        data-product-image="https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?w=400&h=300&fit=crop">
+                                    <i class="bi-cart-fill me-1"></i>Add to Cart
+                                </button>
+                                <button class="btn btn-primary btn-sm view-product" 
+                                        data-product-id="LAPTOP_002">
+                                    <i class="bi-eye me-1"></i>View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
             </div>
-        </section>
-        <!-- Footer-->
-        <footer class="py-5 bg-dark">
-            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
-        </footer>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
-    </body>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <h5 class="text-white">TechStore</h5>
+                    <p class="text-white-50">Your trusted source for the latest electronics and gadgets.</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h6 class="text-white">Quick Links</h6>
+                    <ul class="list-unstyled text-white-50">
+                        <li><a href="#" class="text-white-50">Privacy Policy</a></li>
+                        <li><a href="#" class="text-white-50">Terms of Service</a></li>
+                        <li><a href="#" class="text-white-50">Returns</a></li>
+                        <li><a href="#" class="text-white-50">Support</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h6 class="text-white">Follow Us</h6>
+                    <div class="d-flex">
+                        <a href="#" class="text-white-50 me-3"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-white-50 me-3"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="text-white-50 me-3"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="text-white-50"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p class="text-white-50 mb-0">&copy; 2024 TechStore. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Notification Container -->
+    <div id="notificationContainer" class="notification"></div>
+    
+    <!-- Bootstrap core JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Core theme JS -->
+    <script src="js/scripts.js"></script>
+    <script src="js/index.js"></script>
+</body>
 </html>

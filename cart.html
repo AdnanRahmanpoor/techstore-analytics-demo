@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Shopping Cart - TechStore</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        .cart-item { border-bottom: 1px solid #eee; padding: 20px 0; }
+        .cart-item:last-child { border-bottom: none; }
+        .quantity-controls { display: flex; align-items: center; gap: 10px; }
+        .quantity-controls button { width: 30px; height: 30px; }
+        .cart-summary { background: #f8f9fa; padding: 20px; border-radius: 8px; }
+        .cart-dropdown {
+            min-width: 350px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .dropdown-item.cart-item {
+            white-space: normal;
+            padding: 10px;
+        }
+
+        .dropdown-item.cart-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .remove-item {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand fw-bold text-primary" href="index.html">
+                <i class="bi bi-lightning-charge"></i> TechStore
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="index.html">Continue Shopping</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container px-4 px-lg-5 my-5">
+        <h1 class="fw-bolder mb-4">Shopping Cart</h1>
+        
+        <div class="row">
+            <div class="col-md-8">
+                <div id="cartItems">
+                    <!-- Cart items will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="cart-summary">
+                    <h4>Order Summary</h4>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Subtotal:</span>
+                        <span id="subtotal">$0.00</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Tax (10%):</span>
+                        <span id="tax">$0.00</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Shipping:</span>
+                        <span id="shipping">Free</span>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between fw-bold">
+                        <span>Total:</span>
+                        <span id="total">$0.00</span>
+                    </div>
+                    <button class="btn btn-primary w-100 mt-3" id="checkoutBtn">
+                        Proceed to Checkout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Cart page functionality
+        class CartPage {
+            constructor() {
+                this.cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                this.init();
+            }
+            
+            init() {
+                this.renderCartItems();
+                this.updateSummary();
+                this.setupEventListeners();
+            }
+            
+            renderCartItems() {
+                const container = document.getElementById('cartItems');
+                
+                if (this.cart.length === 0) {
+                    container.innerHTML = `
+                        <div class="text-center py-5">
+                            <i class="bi bi-cart-x display-1 text-muted"></i>
+                            <h3 class="mt-3">Your cart is empty</h3>
+                            <p class="text-muted">Add some items to get started!</p>
+                            <a href="index.html" class="btn btn-primary">Continue Shopping</a>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                container.innerHTML = this.cart.map(item => `
+                    <div class="cart-item" data-product-id="${item.id}">
+                        <div class="row align-items-center">
+                            <div class="col-md-2">
+                                <img src="${item.image}" alt="${item.name}" 
+                                     class="img-fluid rounded" style="max-height: 80px;">
+                            </div>
+                            <div class="col-md-4">
+                                <h5 class="mb-1">${item.name}</h5>
+                                <p class="text-muted small">${item.category}</p>
+                                <p class="text-primary fw-bold">$${item.price}</p>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="quantity-controls">
+                                    <button class="btn btn-outline-secondary btn-sm" 
+                                            onclick="cartPage.updateQuantity('${item.id}', ${item.quantity - 1})">
+                                        <i class="bi bi-dash"></i>
+                                    </button>
+                                    <span class="mx-2">${item.quantity}</span>
+                                    <button class="btn btn-outline-secondary btn-sm" 
+                                            onclick="cartPage.updateQuantity('${item.id}', ${item.quantity + 1})">
+                                        <i class="bi bi-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <strong>$${(item.price * item.quantity).toFixed(2)}</strong>
+                            </div>
+                            <div class="col-md-1">
+                                <button class="btn btn-outline-danger btn-sm" 
+                                        onclick="cartPage.removeItem('${item.id}')">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            updateQuantity(productId, newQuantity) {
+                if (newQuantity <= 0) {
+                    this.removeItem(productId);
+                    return;
+                }
+                
+                const item = this.cart.find(item => item.id === productId);
+                if (item) {
+                    item.quantity = newQuantity;
+                    this.saveCart();
+                    this.renderCartItems();
+                    this.updateSummary();
+                }
+            }
+            
+            removeItem(productId) {
+                this.cart = this.cart.filter(item => item.id !== productId);
+                this.saveCart();
+                this.renderCartItems();
+                this.updateSummary();
+            }
+            
+            updateSummary() {
+                const subtotal = this.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                const tax = subtotal * 0.1;
+                const total = subtotal + tax;
+                
+                document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+                document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+                document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+            }
+            
+            saveCart() {
+                localStorage.setItem('cart', JSON.stringify(this.cart));
+            }
+            
+            setupEventListeners() {
+                document.getElementById('checkoutBtn').addEventListener('click', () => {
+                    if (this.cart.length > 0) {
+                        window.location.href = 'checkout.html';
+                    }
+                });
+            }
+        }
+        
+        const cartPage = new CartPage();
+    </script>
+</body>
+</html>
